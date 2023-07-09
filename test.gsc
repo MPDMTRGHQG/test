@@ -1,19 +1,17 @@
 init()
-set_run_speed()
 {
-    rand = randomintrange( level.zombie_move_speed, level.zombie_move_speed + 35 ); 
+    level.roundStartTime = 0; // Reset the round start time
 
-//    self thread print_run_speed( rand );
-    if( rand <= 35 )
+    // Hook into the game mode to override zombie sprint behavior
+    level.onNotify("start_round", overrideZombieSprint);
+}
+
+overrideZombieSprint()
+{
+    // Check if it's round 1
+    if (level.roundNumber >= 1)
     {
-        self.zombie_move_speed = "walk"; 
-    }
-    else if( rand <= 70 )
-    {
-        self.zombie_move_speed = "run"; 
-    }
-    else
-    {    
-        self.zombie_move_speed = "sprint"; 
+        level.zombie_walkers_per_sprinters_ratio = 0; // Set the ratio to 0 to make all zombies sprint
+        level.zombie_walkers = 0; // Set the number of walker zombies to 0
     }
 }

@@ -1,18 +1,18 @@
-// T5 Zombies Always Sprint Script
-
-maps\_zombiemode::main()
+set_run_speed()
 {
-    level.zombie_walkers_per_sprinters_ratio = 0; // Set the ratio to 0 to make all zombies sprint
-    level.zombie_walkers = 0; // Set the number of walker zombies to 0
+    rand = randomintrange( level.zombie_move_speed, level.zombie_move_speed + 35 ); 
 
-    level.onNotify("startgame_intro", startRoundOverride);
-}
-
-startRoundOverride()
-{
-    if (level.roundNumber == 1)
+//    self thread print_run_speed( rand );
+    if( rand <= 35 )
     {
-        level.zombie_walkers_per_sprinters_ratio = 0; // Set the ratio to 0 to make all zombies sprint
-        level.zombie_walkers = 0; // Set the number of walker zombies to 0
+        self.zombie_move_speed = "walk"; 
+    }
+    else if( rand <= 70 )
+    {
+        self.zombie_move_speed = "run"; 
+    }
+    else
+    {    
+        self.zombie_move_speed = "sprint"; 
     }
 }
